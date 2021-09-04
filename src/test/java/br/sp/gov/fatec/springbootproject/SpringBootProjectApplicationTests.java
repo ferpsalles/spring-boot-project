@@ -3,6 +3,8 @@ package br.sp.gov.fatec.springbootproject;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashSet;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
@@ -10,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-
 import br.sp.gov.fatec.springbootproject.Repository.AviaoRepository;
+import br.sp.gov.fatec.springbootproject.Repository.PecaRepository;
 import br.sp.gov.fatec.springbootproject.entity.Aviao;
+import br.sp.gov.fatec.springbootproject.entity.Peca;
 
 
 @SpringBootTest
@@ -22,6 +25,9 @@ class SpringBootProjectApplicationTests {
 
 	@Autowired
 	private AviaoRepository aviaoRepo;
+
+	@Autowired
+	private PecaRepository pecaRepo;
 
 	@Test
 	void contextLoads() {
@@ -50,5 +56,48 @@ class SpringBootProjectApplicationTests {
 
 		assertFalse(aviaoRepo.findByModeloContainsOrPrefixoContains("del","est").isEmpty());
 	}
+
+	@Test
+	void findByAvioesModelo() {
+
+		Peca peca = new Peca();
+		peca.setCodigo("codigo");
+		peca.setDescricao("descricao");
+		peca.setCategoria("categoria");
+		pecaRepo.save(peca);
+
+		Aviao aviao  = new Aviao();
+		aviao.setPrefixo("Teste");
+		aviao.setModelo("modelo");
+		aviao.setPropulsao("propulsao");
+		aviaoRepo.save(aviao);
+		aviao.setPeca(new HashSet<Peca>());
+		aviao.getPeca().add(peca);
+		aviaoRepo.save(aviao);
+		assertFalse(aviaoRepo.findByPecasCodigo("codigo").isEmpty());
+	}
+
+	@Test
+	void findByPecasCodigo() {
+		Peca peca = new Peca();
+		peca.setCodigo("codigo");
+		peca.setDescricao("descricao");
+		peca.setCategoria("categoria");
+		pecaRepo.save(peca);
+
+		Aviao aviao  = new Aviao();
+		aviao.setPrefixo("Teste");
+		aviao.setModelo("modelo");
+		aviao.setPropulsao("propulsao");
+		aviaoRepo.save(aviao);
+		aviao.setPeca(new HashSet<Peca>());
+		aviao.getPeca().add(peca);
+		aviaoRepo.save(aviao);
+
+
+		assertFalse(pecaRepo.findByAvioesModelo("modelo").isEmpty());
+	}
+
+
 
 }

@@ -1,0 +1,5 @@
+package br.sp.gov.fatec.springbootproject.entity;
+
+public class Avioes {
+
+}

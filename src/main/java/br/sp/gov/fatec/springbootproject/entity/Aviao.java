@@ -1,10 +1,16 @@
 package br.sp.gov.fatec.springbootproject.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,10 +26,18 @@ public class Aviao {
     private String prefixo;
     @Column (name ="avi_propulsao")
     private String propulsao;
-    public long getId() {
+
+    
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name ="ape_aviao_peca",
+        joinColumns = { @JoinColumn(name="avi_id")},
+        inverseJoinColumns = {@JoinColumn(name="pec_id")})
+    private Set<Peca> pecas;
+
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getModelo() {
@@ -45,5 +59,13 @@ public class Aviao {
         this.propulsao = propulsao;
     }
     
+    public Set<Peca> getPeca() {
+        return pecas;
+    }
+
+    public void setPeca(Set<Peca> pecas) {
+        this.pecas = pecas;
+    }
     
+
 }

@@ -9,5 +9,8 @@ public interface AviaoRepository extends JpaRepository<Aviao,Long> {
     public Aviao findByPrefixo (String prefixo);
 
     public List<Aviao> findByModeloContainsOrPrefixoContains(String modelo, String prefixo);
+
+    public List<Aviao> findByPecasCodigo (String codigo);
+
     
 }
