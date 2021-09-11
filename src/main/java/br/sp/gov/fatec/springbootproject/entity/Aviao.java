@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +34,9 @@ public class Aviao {
         joinColumns = { @JoinColumn(name="avi_id")},
         inverseJoinColumns = {@JoinColumn(name="pec_id")})
     private Set<Peca> pecas;
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="aviao")
+    private Set<Manutencao> manutencao;
 
     public Long getId() {
         return id;

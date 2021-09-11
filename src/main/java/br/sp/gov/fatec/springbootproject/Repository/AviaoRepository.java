@@ -12,5 +12,6 @@ public interface AviaoRepository extends JpaRepository<Aviao,Long> {
 
     public List<Aviao> findByPecasCodigo (String codigo);
 
+    public List<Aviao> findByManutencaoProcedimento (String procedimento);
     
 }

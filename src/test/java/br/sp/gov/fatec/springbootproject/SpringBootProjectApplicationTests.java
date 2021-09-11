@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashSet;
 
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +16,9 @@ import org.springframework.test.annotation.Rollback;
 
 import br.sp.gov.fatec.springbootproject.Repository.AviaoRepository;
 import br.sp.gov.fatec.springbootproject.Repository.PecaRepository;
+import br.sp.gov.fatec.springbootproject.Repository.ManutencaoRepository;
 import br.sp.gov.fatec.springbootproject.entity.Aviao;
+import br.sp.gov.fatec.springbootproject.entity.Manutencao;
 import br.sp.gov.fatec.springbootproject.entity.Peca;
 
 
@@ -28,6 +32,9 @@ class SpringBootProjectApplicationTests {
 
 	@Autowired
 	private PecaRepository pecaRepo;
+
+	@Autowired
+	private ManutencaoRepository manutencaoRepo;
 
 	@Test
 	void contextLoads() {
@@ -96,6 +103,42 @@ class SpringBootProjectApplicationTests {
 
 
 		assertFalse(pecaRepo.findByAvioesModelo("modelo").isEmpty());
+	}
+
+	@Test
+	void findByAviaoModelo(){
+		Aviao aviao = new Aviao();
+		aviao.setPrefixo("Teste");
+		aviao.setModelo("modelo");
+		aviao.setPropulsao("propulsao");
+		aviaoRepo.save(aviao);
+		
+		Manutencao manutencao = new Manutencao();
+		manutencao.setProcedimento("procedimento");
+		manutencao.setData(new Date());
+		manutencao.setAviao(aviao);
+		manutencaoRepo.save(manutencao);
+
+		assertFalse(aviaoRepo.findByManutencaoProcedimento("procedimento").isEmpty());
+
+	}
+
+	@Test
+	void findByManutencaoProcedimento(){
+		Aviao aviao = new Aviao();
+		aviao.setPrefixo("Teste");
+		aviao.setModelo("modelo");
+		aviao.setPropulsao("propulsao");
+		aviaoRepo.save(aviao);
+		
+		Manutencao manutencao = new Manutencao();
+		manutencao.setProcedimento("procedimento");
+		manutencao.setData(new Date());
+		manutencao.setAviao(aviao);
+		manutencaoRepo.save(manutencao);
+
+		assertFalse(manutencaoRepo.findByAviaoModelo("modelo").isEmpty());
+
 	}
 
 
