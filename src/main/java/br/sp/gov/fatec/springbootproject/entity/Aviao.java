@@ -1,5 +1,6 @@
 package br.sp.gov.fatec.springbootproject.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -69,6 +70,11 @@ public class Aviao {
 
     public void setPeca(Set<Peca> pecas) {
         this.pecas = pecas;
+    }
+    public void setManutencao(HashSet<Manutencao> hashSet) {
+    }
+    public HashSet<Manutencao> getManutencao() {
+        return null;
     }
     
 

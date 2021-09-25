@@ -12,4 +12,6 @@ public interface ManutencaoRepository extends JpaRepository<Manutencao,Long>{
 
    public List<Manutencao> findByAviaoModelo(String modelo);
 
+
+
 }

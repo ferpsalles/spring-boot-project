@@ -20,6 +20,7 @@ import br.sp.gov.fatec.springbootproject.Repository.ManutencaoRepository;
 import br.sp.gov.fatec.springbootproject.entity.Aviao;
 import br.sp.gov.fatec.springbootproject.entity.Manutencao;
 import br.sp.gov.fatec.springbootproject.entity.Peca;
+import br.sp.gov.fatec.springbootproject.service.SegurancaService;
 
 
 @SpringBootTest
@@ -35,6 +36,9 @@ class SpringBootProjectApplicationTests {
 
 	@Autowired
 	private ManutencaoRepository manutencaoRepo;
+
+	@Autowired
+	private SegurancaService segurancaService;
 
 	@Test
 	void contextLoads() {
@@ -138,6 +142,13 @@ class SpringBootProjectApplicationTests {
 		manutencaoRepo.save(manutencao);
 
 		assertFalse(manutencaoRepo.findByAviaoModelo("modelo").isEmpty());
+
+	}
+
+	@Test
+	void novoAviao() {
+		segurancaService.novoAviao("modelo", "pre", "propulsao", "categoria", "descricao", "codigo");
+		assertNotNull(pecaRepo.findByCodigo("codigo"));
 
 	}
 
