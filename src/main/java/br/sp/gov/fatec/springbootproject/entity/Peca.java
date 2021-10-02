@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name ="pec_peca")
 public class Peca {
@@ -30,7 +32,7 @@ public class Peca {
     @Column (name ="pec_categoria")
     private String categoria;
 
-    
+    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY, mappedBy = "pecas")
     private Set<Aviao> avioes;
 
