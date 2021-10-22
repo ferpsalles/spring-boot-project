@@ -15,18 +15,32 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import br.sp.gov.fatec.springbootproject.controller.View;
+
 @Entity
 @Table(name ="avi_aviao")
 public class Aviao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name ="avi_id")
+    @JsonView(View.AviaoCompleto.class)
     private long id;
+
+
     @Column (name ="avi_modelo")
+    @JsonView(View.AviaoSimplificado.class)
     private String modelo;
+
+
     @Column (name ="avi_prefixo")
+    @JsonView(View.AviaoSimplificado.class)
     private String prefixo;
+
+
     @Column (name ="avi_propulsao")
+    @JsonView(View.AviaoCompleto.class)
     private String propulsao;
 
     
@@ -34,6 +48,7 @@ public class Aviao {
     @JoinTable(name ="ape_aviao_peca",
         joinColumns = { @JoinColumn(name="avi_id")},
         inverseJoinColumns = {@JoinColumn(name="pec_id")})
+    @JsonView(View.AviaoSimplificado.class)
     private Set<Peca> pecas;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="aviao")
