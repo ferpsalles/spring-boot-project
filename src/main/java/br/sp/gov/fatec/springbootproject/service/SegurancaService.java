@@ -1,10 +1,11 @@
 package br.sp.gov.fatec.springbootproject.service;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import br.sp.gov.fatec.springbootproject.entity.Aviao;
 import br.sp.gov.fatec.springbootproject.entity.Usuario;
 import java.util.List;
 
-public interface SegurancaService {
+public interface SegurancaService extends UserDetailsService {
 
     public Aviao novoAviao (String modelo, String prefixo, String propulsao, String categoria, String descricao, String codigo);
 
