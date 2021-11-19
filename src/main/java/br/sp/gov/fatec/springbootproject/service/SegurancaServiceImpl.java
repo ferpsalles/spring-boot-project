@@ -4,6 +4,7 @@ import br.sp.gov.fatec.springbootproject.Repository.AviaoRepository;
 import br.sp.gov.fatec.springbootproject.Repository.PecaRepository;
 import br.sp.gov.fatec.springbootproject.Repository.UsuarioRepository;
 import br.sp.gov.fatec.springbootproject.Repository.AutorizacaoRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import br.sp.gov.fatec.springbootproject.entity.Autorizacao;
 import br.sp.gov.fatec.springbootproject.entity.Aviao;
 import br.sp.gov.fatec.springbootproject.entity.Peca;
@@ -37,7 +38,11 @@ public class SegurancaServiceImpl implements SegurancaService {
     @Autowired
     AutorizacaoRepository autorizacaoRepo;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public Aviao novoAviao (String modelo, String prefixo, String propulsao, String categoria, String descricao, String codigo) {
         
         Peca peca = pecaRepo.findByCodigo(codigo);
@@ -61,6 +66,7 @@ public class SegurancaServiceImpl implements SegurancaService {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
     public List<Aviao> buscarTodosAvioes(){
       return aviaoRepo.findAll();
 
@@ -68,6 +74,7 @@ public class SegurancaServiceImpl implements SegurancaService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public Usuario novoUsuario(String nome, String email, String senha, String autorizacao) {
         
         Autorizacao aut = autorizacaoRepo.findByNome(autorizacao);
@@ -80,7 +87,7 @@ public class SegurancaServiceImpl implements SegurancaService {
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setEmail(email);
-        usuario.setSenha(senha);
+        usuario.setSenha(passwordEncoder.encode(senha));
         usuario.setAutorizacoes(new HashSet<Autorizacao>());
         usuario.getAutorizacoes().add(aut);
         usuarioRepo.save(usuario);
@@ -89,6 +96,7 @@ public class SegurancaServiceImpl implements SegurancaService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'USUARIO')")
     public List<Usuario> buscarTodosUsuarios() {
         return usuarioRepo.findAll();
     }
